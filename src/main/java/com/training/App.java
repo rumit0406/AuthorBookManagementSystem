@@ -17,9 +17,7 @@ public class App extends Application<AppConfiguration> {
 
     @Override
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
-//        BookResource bookResource = new BookResource();
-//        AuthorResource authorResource = new AuthorResource();
-//        environment.jersey().register(new BookResource());
+        environment.jersey().register(new BookResource());
         environment.jersey().register(new AuthorResource());
     }
 }
