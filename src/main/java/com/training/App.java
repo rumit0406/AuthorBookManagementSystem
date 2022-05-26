@@ -21,3 +21,7 @@ public class App extends Application<AppConfiguration> {
         environment.jersey().register(new AuthorResource());
     }
 }
+
+//just add the service layer then run the code. ;)
+//then do jdbc mysql
+//then do hibernate
