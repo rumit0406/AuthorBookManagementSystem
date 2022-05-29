@@ -7,20 +7,22 @@ import com.training.DAO.BookDAOImpl;
 import com.training.api.Author;
 import com.training.api.Book;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class ServiceLayerImpl implements ServiceLayer {
 
-    BookDAO bookDAO;
     AuthorDAO authorDAO;
+    BookDAO bookDAO;
 
-    public ServiceLayerImpl() {
-        bookDAO = new BookDAOImpl();
-        authorDAO = new AuthorDAOImpl();
+    public ServiceLayerImpl(AuthorDAO authorDAO, BookDAO bookDAO) {
+        this.authorDAO = authorDAO;
+        this.bookDAO = bookDAO;
     }
+
     @Override
-    public int insertAuthor(Author toBeInserted, String dobString) {
+    public int insertAuthor(Author toBeInserted, String dobString) throws SQLException {
         return authorDAO.insert(toBeInserted, dobString);
     }
 

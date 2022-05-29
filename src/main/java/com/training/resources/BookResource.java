@@ -13,9 +13,8 @@ import java.util.List;
 public class BookResource {
     private ServiceLayer serviceLayer;
 
-    public BookResource() {
-        super();
-        serviceLayer = new ServiceLayerImpl();
+    public BookResource(ServiceLayer serviceLayer) {
+        this.serviceLayer = serviceLayer;
     }
 
     @GET
