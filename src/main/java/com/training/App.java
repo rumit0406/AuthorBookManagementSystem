@@ -1,7 +1,11 @@
 package com.training;
 
+import com.training.DAO.*;
+import com.training.api.Author;
 import com.training.resources.AuthorResource;
 import com.training.resources.BookResource;
+import com.training.service_layer.ServiceLayer;
+import com.training.service_layer.ServiceLayerImpl;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
@@ -17,11 +21,22 @@ public class App extends Application<AppConfiguration> {
 
     @Override
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
-        environment.jersey().register(new BookResource());
-        environment.jersey().register(new AuthorResource());
+        ConnectionUtil connectionUtil = new ConnectionUtil(configuration.getUrl(), configuration.getUsername(),
+                configuration.getPassword());
+
+        AuthorDAO authorDAO = new AuthorDAOImpl(connectionUtil);
+        BookDAO bookDAO = new BookDAOImpl(connectionUtil);
+
+        ServiceLayer serviceLayer = new ServiceLayerImpl(authorDAO, bookDAO);
+
+        AuthorResource authorResource = new AuthorResource(serviceLayer);
+        BookResource bookResource = new BookResource(serviceLayer);
+
+        environment.jersey().register(authorResource);
+        environment.jersey().register(bookResource);
     }
 }
 
-//just add the service layer then run the code. ;)
+//complete daoimpl for both author and book, just completed constructors of both
 //then do jdbc mysql
 //then do hibernate

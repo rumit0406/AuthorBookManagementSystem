@@ -2,51 +2,84 @@ package com.training.DAO;
 
 import com.training.api.Author;
 import com.training.api.DateParser;
+import com.training.constants.SQLQueriesConstants;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class AuthorDAOImpl implements AuthorDAO {
 
-    private List<Author> authorList;
-    public AuthorDAOImpl() {
-        super();
-        authorList = new ArrayList<>();
-        authorList.add(new Author(1, "Ruskin Bond", "Indian", "Kasauli",
-                DateParser.parseDate("1934-05-19")));
-        authorList.add(new Author(2, "Rabindranath Tagore", "Indian", "Calcutta",
-                DateParser.parseDate("1861-05-07")));
-        authorList.add(new Author(3, "Arthur Conan Doyle", "British", "Scotland",
-                DateParser.parseDate("1859-05-22")));
+    ConnectionUtil connectionUtil;
+
+    public AuthorDAOImpl(ConnectionUtil connectionUtil) {
+        this.connectionUtil = connectionUtil;
     }
 
     @Override
     public int insert(Author toBeInserted, String dobString) {
-        toBeInserted.setId(getIdNewAuthor());
-        toBeInserted.setDateOfBirth(DateParser.parseDate(dobString));
-        authorList.add(toBeInserted);
-        return toBeInserted.getId();
+        int id = -1;
+        try (Connection con = connectionUtil.getConnection()) {
+            PreparedStatement statement = con.prepareStatement(SQLQueriesConstants.ADD_AUTHOR);
+            statement.setString(1, toBeInserted.getName());
+            statement.setString(2, toBeInserted.getNationality());
+            statement.setString(3, toBeInserted.getPlaceOfBirth());
+            statement.setDate(4, Date.valueOf(dobString));
+            statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 
     @Override
-    public int getIdNewAuthor() {
-        return 1 + authorList.size();
-    }
-    @Override
     public Optional<Author> findById(int id) {
         Optional<Author> opt = Optional.empty();
-        for (Author author : authorList) {
-            if (author.getId() == id) {
+        try (Connection con = connectionUtil.getConnection()) {
+            PreparedStatement statement = con.prepareStatement(SQLQueriesConstants.READ_AUTHOR_BY_ID);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Author author = mapRowToObject(rs);
                 opt = Optional.of(author);
-                break;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return opt;
     }
 
     @Override
     public List<Author> findAll() {
+        List<Author> authorList = new ArrayList<>();
+        try (Connection con = connectionUtil.getConnection()) {
+            PreparedStatement statement = con.prepareStatement(SQLQueriesConstants.READ_ALL_AUTHORS);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Author author = mapRowToObject(rs);
+                authorList.add(author);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return authorList;
+    }
+
+    private Author mapRowToObject(ResultSet rs) {
+        Author author = new Author();
+        try {
+            author.setId(rs.getInt(1));
+            author.setName(rs.getString(2));
+            author.setNationality(rs.getString(3));
+            author.setPlaceOfBirth(rs.getString(4));
+            author.setDateOfBirth(rs.getDate(5));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return author;
     }
 }

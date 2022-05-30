@@ -9,15 +9,16 @@ import com.training.service_layer.ServiceLayerImpl;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 @Path("/authors")
 public class AuthorResource {
     ServiceLayer serviceLayer;
-    public AuthorResource() {
-        super();
-        serviceLayer = new ServiceLayerImpl();
+
+    public AuthorResource(ServiceLayer serviceLayer) {
+        this.serviceLayer = serviceLayer;
     }
 
     @GET
@@ -30,9 +31,9 @@ public class AuthorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAuthor(Author toBeAdded,
-                              @HeaderParam("dobString") String dobString) {
+                              @HeaderParam("dobString") String dobString) throws SQLException {
         int id = serviceLayer.insertAuthor(toBeAdded, dobString);
-        return Response.created(URI.create("/authors/" + id)).entity(toBeAdded).build();
+        return Response.created(URI.create("/authors/" + id)).build();
     }
 
     @GET
