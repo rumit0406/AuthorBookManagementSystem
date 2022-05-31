@@ -1,12 +1,23 @@
 package com.training.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.checkerframework.checker.units.qual.N;
 
+import javax.persistence.*;
 import java.util.Date;
+
+@Entity
+@NamedQueries({
+        @NamedQuery(name = "Model.Book.findAll", query = "select b from Book b"),
+        @NamedQuery(name = "Model.Book.findBooksByAuthorId", query = "select b from Book b where b.authorId = :authorId")
+})
 
 public class Book {
     private String name, authorName, genre;
-    private int authorId, id;
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private int id;
+    private int authorId;
     private Date dateOfPublish, dateAdded;
 
     public Book(String name, String authorName, String genre, int authorId) {

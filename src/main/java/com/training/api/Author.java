@@ -2,9 +2,16 @@ package com.training.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@NamedQueries({
+        @NamedQuery(name = "Model.Author.findAll", query = "select a from Author a")
+})
 public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name, nationality, placeOfBirth;
     private Date dateOfBirth;

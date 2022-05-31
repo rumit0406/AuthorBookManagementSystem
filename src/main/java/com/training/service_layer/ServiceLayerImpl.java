@@ -1,9 +1,7 @@
 package com.training.service_layer;
 
 import com.training.DAO.AuthorDAO;
-import com.training.DAO.AuthorDAOImpl;
 import com.training.DAO.BookDAO;
-import com.training.DAO.BookDAOImpl;
 import com.training.api.Author;
 import com.training.api.Book;
 
@@ -22,7 +20,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public int insertAuthor(Author toBeInserted, String dobString) throws SQLException {
+    public Author insertAuthor(Author toBeInserted, String dobString) throws SQLException {
         return authorDAO.insert(toBeInserted, dobString);
     }
 
@@ -37,7 +35,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public int insertBook(Book tobeAdded, String dopString) {
+    public Book insertBook(Book tobeAdded, String dopString) {
         return bookDAO.insert(tobeAdded, dopString);
     }
 

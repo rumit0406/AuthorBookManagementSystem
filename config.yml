@@ -6,7 +6,31 @@ server:
     - type: http
       port: 8081
 
-url: jdbc:mysql://localhost:3306/sdpDB
-username: root
-password: Blue_174973
+#url: jdbc:mysql://localhost:3306/sdpDB
+#username: root
+#password: Blue_174973
 #driverClass: com.mysql.jdbc.Driver
+
+database:
+  # the name of your JDBC driver
+  driverClass: com.mysql.jdbc.Driver
+
+  # the username
+  user: root
+
+  # the password
+  password: Blue_174973
+
+  # the JDBC URL
+  url: jdbc:mysql://localhost:3306/sdpDB
+
+#  validationQuery: "select * from author"
+
+  properties:
+    hibernate.dialect: org.hibernate.dialect.MySQLDialect
+    hibernate.hbm2ddl.auto: update
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false

@@ -1,3 +1,4 @@
+/*
 package com.training.DAO;
 
 import com.training.api.Author;
@@ -83,3 +84,4 @@ public class AuthorDAOImpl implements AuthorDAO {
         return author;
     }
 }
+*/

@@ -6,6 +6,11 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+project.ext {
+    dropwizardVersion = '2.1.0'
+    configPath = "$rootProject.projectDir/"
+}
+
 repositories {
     mavenCentral()
 }
@@ -14,9 +19,13 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation 'io.dropwizard:dropwizard-core:2.1.0'
-//    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
 //    runtime 'mysql:mysql-connector-java:8.0.29'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.4'
+    implementation 'io.dropwizard:dropwizard-hibernate:2.1.0'
+    implementation group: 'io.dropwizard', name: 'dropwizard-db', version: dropwizardVersion
+// https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api
+    implementation group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
 }
 
 test {
@@ -25,5 +34,5 @@ test {
 
 mainClassName = "com.training.App"
 run {
-    args = ['server', 'config.yml']
+    args 'server', configPath + 'config.yml'
 }

@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ServiceLayer {
-    int insertAuthor(Author toBeInserted, String dobString) throws SQLException;
+    Author insertAuthor(Author toBeInserted, String dobString) throws SQLException;
     Optional<Author> findAuthorByAuthorId(int authorId);
     List<Author> findAllAuthors();
-    int insertBook(Book toBeInserted, String dopString);
+    Book insertBook(Book toBeInserted, String dopString);
     List<Book> findBooksByAuthorId(int authorId);
     List<Book> findAllBooks();
 }
