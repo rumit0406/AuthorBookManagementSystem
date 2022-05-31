@@ -2,11 +2,16 @@ package com.training;
 
 import com.training.DAO.*;
 import com.training.api.Author;
+import com.training.api.Book;
+//import com.training.healthChecks.DatabaseHealthCheck;
 import com.training.resources.AuthorResource;
 import com.training.resources.BookResource;
 import com.training.service_layer.ServiceLayer;
 import com.training.service_layer.ServiceLayerImpl;
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 public class App extends Application<AppConfiguration> {
@@ -19,13 +24,24 @@ public class App extends Application<AppConfiguration> {
         }
     }
 
+    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<>(Author.class, Book.class) {
+        @Override
+        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+            return configuration.getDataSourceFactory();
+        }
+    };
+
+    @Override
+    public void initialize(Bootstrap<AppConfiguration> bootstrap) {
+        bootstrap.addBundle(hibernate);
+    }
     @Override
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
-        ConnectionUtil connectionUtil = new ConnectionUtil(configuration.getUrl(), configuration.getUsername(),
-                configuration.getPassword());
+//        ConnectionUtil connectionUtil = new ConnectionUtil(configuration.getUrl(), configuration.getUsername(),
+//                configuration.getPassword());
 
-        AuthorDAO authorDAO = new AuthorDAOImpl(connectionUtil);
-        BookDAO bookDAO = new BookDAOImpl(connectionUtil);
+        AuthorDAO authorDAO = new AuthorDAOJpaImpl(hibernate.getSessionFactory());
+        BookDAO bookDAO = new BookDAOJpaImpl(hibernate.getSessionFactory());
 
         ServiceLayer serviceLayer = new ServiceLayerImpl(authorDAO, bookDAO);
 
@@ -34,9 +50,6 @@ public class App extends Application<AppConfiguration> {
 
         environment.jersey().register(authorResource);
         environment.jersey().register(bookResource);
+//        environment.healthChecks().register("database", new DatabaseHealthCheck(database));
     }
 }
-
-//complete daoimpl for both author and book, just completed constructors of both
-//then do jdbc mysql
-//then do hibernate

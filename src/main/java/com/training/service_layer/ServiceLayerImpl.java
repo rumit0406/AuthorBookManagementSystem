@@ -1,15 +1,12 @@
 package com.training.service_layer;
 
 import com.training.DAO.AuthorDAO;
-import com.training.DAO.AuthorDAOImpl;
 import com.training.DAO.BookDAO;
-import com.training.DAO.BookDAOImpl;
 import com.training.api.Author;
 import com.training.api.Book;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class ServiceLayerImpl implements ServiceLayer {
 
@@ -27,7 +24,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public Optional<Author> findAuthorByAuthorId(int authorId) {
+    public List<Author> findAuthorByAuthorId(int authorId) {
         return authorDAO.findById(authorId);
     }
 

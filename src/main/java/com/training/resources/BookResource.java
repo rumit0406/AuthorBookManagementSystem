@@ -3,6 +3,7 @@ package com.training.resources;
 import com.training.api.Book;
 import com.training.service_layer.ServiceLayer;
 import com.training.service_layer.ServiceLayerImpl;
+import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,12 +19,14 @@ public class BookResource {
     }
 
     @GET
+    @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
     public List<Book> getBooks() {
         return serviceLayer.findAllBooks();
     }
 
     @POST
+    @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addBook(@HeaderParam("dopString") String dopString, Book tobeAdded) {
@@ -34,6 +37,7 @@ public class BookResource {
     }
 
     @GET
+    @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{authorId}")
     public Response getBookByAuthorId(@PathParam("authorId") int authorId) {

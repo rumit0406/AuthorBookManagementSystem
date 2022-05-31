@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface AuthorDAO {
     int insert(Author toBeInserted, String dobString) throws SQLException;
-    Optional<Author> findById(int id);
+    List<Author> findById(int id);
+
     List<Author> findAll();
 
 }
