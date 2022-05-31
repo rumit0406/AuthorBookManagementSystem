@@ -1,14 +1,17 @@
 package com.training.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.checkerframework.checker.units.qual.N;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Model.Book.findAll", query = "select b from Book b"),
+        @NamedQuery(name = "Model.Book.findBooksByAuthorId", query = "select b from Book b where b.authorId = :authorId")
+})
+
 public class Book {
     private String name, authorName, genre;
     @Id

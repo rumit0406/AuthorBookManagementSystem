@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Model.Author.findById", query = "select a from Author a where a.id = :id"),
         @NamedQuery(name = "Model.Author.findAll", query = "select a from Author a")
 })
 public class Author {

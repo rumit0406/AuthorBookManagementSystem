@@ -37,8 +37,8 @@ public class AuthorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAuthor(Author toBeAdded,
                               @HeaderParam("dobString") String dobString) throws SQLException {
-        int id = serviceLayer.insertAuthor(toBeAdded, dobString);
-        return Response.created(URI.create("/authors/" + id)).build();
+        Author author = serviceLayer.insertAuthor(toBeAdded, dobString);
+        return Response.created(URI.create("/authors/" + author.getId())).entity(author).build();
     }
 
     @GET
@@ -46,7 +46,10 @@ public class AuthorResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getAuthorById(@PathParam("id") int id) {
-        List<Author> list = serviceLayer.findAuthorByAuthorId(id);
-        return Response.ok(list).build();
+        Optional<Author> opt = serviceLayer.findAuthorByAuthorId(id);
+        if (opt.isEmpty()) {
+            throw new WebApplicationException(404);
+        }
+        return Response.ok(opt.get()).build();
     }
 }

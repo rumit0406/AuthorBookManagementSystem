@@ -7,6 +7,7 @@ import com.training.api.Book;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class ServiceLayerImpl implements ServiceLayer {
 
@@ -19,12 +20,12 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public int insertAuthor(Author toBeInserted, String dobString) throws SQLException {
+    public Author insertAuthor(Author toBeInserted, String dobString) throws SQLException {
         return authorDAO.insert(toBeInserted, dobString);
     }
 
     @Override
-    public List<Author> findAuthorByAuthorId(int authorId) {
+    public Optional<Author> findAuthorByAuthorId(int authorId) {
         return authorDAO.findById(authorId);
     }
 
@@ -34,7 +35,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public int insertBook(Book tobeAdded, String dopString) {
+    public Book insertBook(Book tobeAdded, String dopString) {
         return bookDAO.insert(tobeAdded, dopString);
     }
 
