@@ -1,10 +1,12 @@
 package com.training.DAO;
 
 import com.training.api.Author;
+import com.training.api.Book;
 import com.training.api.DateParser;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +31,12 @@ public class AuthorDAOJpaImpl extends AbstractDAO<Author> implements AuthorDAO {
     @Override
     public List<Author> findAll() {
         return (List<Author>) namedQuery("Model.Author.findAll").list();
+    }
+
+    @Override
+    public List<Author> findAuthorsOfBook(int bookId) {
+        Query query = currentSession().createNamedQuery("Model.Author.findAuthorsByBookId");
+        query.setParameter("bookId", bookId);
+        return (List<Author>) query.getResultList();
     }
 }

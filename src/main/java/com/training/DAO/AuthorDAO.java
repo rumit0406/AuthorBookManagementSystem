@@ -12,4 +12,5 @@ public interface AuthorDAO {
 
     List<Author> findAll();
 
+    List<Author> findAuthorsOfBook(int bookId);
 }

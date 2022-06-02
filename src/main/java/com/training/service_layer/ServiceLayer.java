@@ -14,4 +14,8 @@ public interface ServiceLayer {
     Book insertBook(Book toBeInserted, String dopString);
     List<Book> findBooksByAuthorId(int authorId);
     List<Book> findAllBooks();
+
+    List<Author> findAuthorsOfBook(int bookId);
+
+    Optional<Book> findBookByBookId(int id);
 }

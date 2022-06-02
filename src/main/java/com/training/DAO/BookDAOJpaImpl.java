@@ -1,5 +1,6 @@
 package com.training.DAO;
 
+import com.training.api.Author;
 import com.training.api.Book;
 import com.training.api.DateParser;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -8,6 +9,7 @@ import org.hibernate.SessionFactory;
 import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class BookDAOJpaImpl extends AbstractDAO<Book> implements BookDAO {
     public BookDAOJpaImpl(SessionFactory factory) {
@@ -29,5 +31,11 @@ public class BookDAOJpaImpl extends AbstractDAO<Book> implements BookDAO {
     @Override
     public List<Book> findAll() {
         return (List<Book>) namedQuery("Model.Book.findAll").list();
+    }
+
+    @Override
+    public Optional<Book> findBookByBookId(int id) {
+        Book book = get(id);
+        return book == null ? Optional.empty() : Optional.of(book);
     }
 }

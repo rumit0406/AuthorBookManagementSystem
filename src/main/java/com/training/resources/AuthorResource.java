@@ -3,6 +3,7 @@ package com.training.resources;
 import java.net.URI;
 
 import com.training.api.Author;
+import com.training.api.Book;
 import com.training.service_layer.ServiceLayer;
 import com.training.service_layer.ServiceLayerImpl;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -51,5 +52,14 @@ public class AuthorResource {
             throw new WebApplicationException(404);
         }
         return Response.ok(opt.get()).build();
+    }
+
+    @GET
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{authorId}/books")
+    public Response getBookByAuthorId(@PathParam("authorId") int authorId) {
+        List<Book> booksWrittenByThisAuthor = serviceLayer.findBooksByAuthorId(authorId);
+        return Response.ok(booksWrittenByThisAuthor).build();
     }
 }

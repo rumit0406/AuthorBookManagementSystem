@@ -4,6 +4,7 @@ import com.training.DAO.*;
 import com.training.api.Author;
 import com.training.api.Book;
 //import com.training.healthChecks.DatabaseHealthCheck;
+import com.training.api.BookAuthor;
 import com.training.resources.AuthorResource;
 import com.training.resources.BookResource;
 import com.training.service_layer.ServiceLayer;
@@ -24,7 +25,7 @@ public class App extends Application<AppConfiguration> {
         }
     }
 
-    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<>(Author.class, Book.class) {
+    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<>(Author.class, Book.class, BookAuthor.class) {
         @Override
         public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
             return configuration.getDataSourceFactory();
@@ -37,9 +38,6 @@ public class App extends Application<AppConfiguration> {
     }
     @Override
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
-//        ConnectionUtil connectionUtil = new ConnectionUtil(configuration.getUrl(), configuration.getUsername(),
-//                configuration.getPassword());
-
         AuthorDAO authorDAO = new AuthorDAOJpaImpl(hibernate.getSessionFactory());
         BookDAO bookDAO = new BookDAOJpaImpl(hibernate.getSessionFactory());
 
@@ -50,6 +48,6 @@ public class App extends Application<AppConfiguration> {
 
         environment.jersey().register(authorResource);
         environment.jersey().register(bookResource);
-//        environment.healthChecks().register("database", new DatabaseHealthCheck(database));
     }
 }
+//given a book find all its authors

@@ -48,4 +48,14 @@ public class ServiceLayerImpl implements ServiceLayer {
     public List<Book> findAllBooks() {
         return bookDAO.findAll();
     }
+
+    @Override
+    public List<Author> findAuthorsOfBook(int bookId) {
+        return authorDAO.findAuthorsOfBook(bookId);
+    }
+
+    @Override
+    public Optional<Book> findBookByBookId(int id) {
+        return bookDAO.findBookByBookId(id);
+    }
 }

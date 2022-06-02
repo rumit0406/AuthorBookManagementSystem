@@ -7,7 +7,8 @@ import java.util.Date;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Model.Author.findAll", query = "select a from Author a")
+        @NamedQuery(name = "Model.Author.findAll", query = "select a from Author a"),
+        @NamedQuery(name = "Model.Author.findAuthorsByBookId", query = "select a from Author a, BookAuthor ba where ba.bookId = :bookId and a.id = ba.authorId")
 })
 public class Author {
     @Id

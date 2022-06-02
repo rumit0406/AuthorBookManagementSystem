@@ -1,5 +1,6 @@
 package com.training.resources;
 
+import com.training.api.Author;
 import com.training.api.Book;
 import com.training.api.DateParser;
 import com.training.service_layer.ServiceLayer;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Path("/books")
 public class BookResource {
@@ -35,17 +37,37 @@ public class BookResource {
         //does this violate SOLID??
         tobeAdded.setDateOfPublish(DateParser.parseDate(dopString));
         tobeAdded.setDateAdded(new Date());
-        tobeAdded.setAuthorName(serviceLayer.findAuthorByAuthorId(tobeAdded.getAuthorId()).get().getName());
         tobeAdded = serviceLayer.insertBook(tobeAdded, dopString);
         return Response.created(URI.create("books/" + tobeAdded.getId())).entity(tobeAdded).build();
+    }
+
+//    @GET
+//    @UnitOfWork
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("/{authorId}")
+//    public Response getBookByAuthorId(@PathParam("authorId") int authorId) {
+//        List<Book> booksWrittenByThisAuthor = serviceLayer.findBooksByAuthorId(authorId);
+//        return Response.ok(booksWrittenByThisAuthor).build();
+//    }
+
+    @GET
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{bookId}/authors")
+    public Response getBookByAuthorId(@PathParam("bookId") int bookId) {
+        List<Author> authorsOfThisBook = serviceLayer.findAuthorsOfBook(bookId);
+        return Response.ok(authorsOfThisBook).build();
     }
 
     @GET
     @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{authorId}")
-    public Response getBookByAuthorId(@PathParam("authorId") int authorId) {
-        List<Book> booksWrittenByThisAuthor = serviceLayer.findBooksByAuthorId(authorId);
-        return Response.ok(booksWrittenByThisAuthor).build();
+    @Path("/{id}")
+    public Response getBookById(@PathParam("id") int id) {
+        Optional<Book> opt = serviceLayer.findBookByBookId(id);
+        if (opt.isEmpty()) {
+            throw new WebApplicationException(404);
+        }
+        return Response.ok(opt.get()).build();
     }
 }
