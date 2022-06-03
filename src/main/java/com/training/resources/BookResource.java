@@ -13,9 +13,11 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import com.google.inject.Inject;
 
 @Path("/books")
 public class BookResource {
+    @Inject
     private ServiceLayer serviceLayer;
 
     public BookResource(ServiceLayer serviceLayer) {

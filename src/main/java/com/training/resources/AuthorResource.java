@@ -5,10 +5,9 @@ import java.net.URI;
 import com.training.api.Author;
 import com.training.api.Book;
 import com.training.service_layer.ServiceLayer;
-import com.training.service_layer.ServiceLayerImpl;
 import io.dropwizard.hibernate.UnitOfWork;
 
-import javax.transaction.Transactional;
+import com.google.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,6 +18,7 @@ import java.util.Optional;
 @Path("/authors")
 
 public class AuthorResource {
+    @Inject
     ServiceLayer serviceLayer;
 
     public AuthorResource(ServiceLayer serviceLayer) {

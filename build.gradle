@@ -21,10 +21,12 @@ dependencies {
     implementation 'io.dropwizard:dropwizard-core:2.1.0'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
 //    runtime 'mysql:mysql-connector-java:8.0.29'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.4'
+//    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.4'
     implementation 'io.dropwizard:dropwizard-hibernate:2.1.0'
     implementation group: 'io.dropwizard', name: 'dropwizard-db', version: dropwizardVersion
 // https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    implementation 'com.google.inject:guice:5.1.0'
     implementation group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
 }
 

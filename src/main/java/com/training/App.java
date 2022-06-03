@@ -50,4 +50,3 @@ public class App extends Application<AppConfiguration> {
         environment.jersey().register(bookResource);
     }
 }
-//given a book find all its authors

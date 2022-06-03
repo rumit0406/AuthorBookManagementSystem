@@ -5,13 +5,17 @@ import com.training.DAO.BookDAO;
 import com.training.api.Author;
 import com.training.api.Book;
 
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import com.google.inject.Inject;
 
 public class ServiceLayerImpl implements ServiceLayer {
 
+    @Inject
     AuthorDAO authorDAO;
+    @Inject
     BookDAO bookDAO;
 
     public ServiceLayerImpl(AuthorDAO authorDAO, BookDAO bookDAO) {
