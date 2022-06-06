@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+//    id 'com.palantir.docker' version '0.33.0'
 }
 
 group 'org.example'
@@ -14,6 +15,13 @@ project.ext {
 repositories {
     mavenCentral()
 }
+
+//docker {
+//    name "${project.name}"
+//    dockerfile file('Dockerfile')
+//    copySpec.from(jar).rename(".*", "app.jar")
+//    buildArgs(['JAR_FILE': 'app.jar'])
+//}
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
@@ -34,7 +42,18 @@ test {
     useJUnitPlatform()
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.training.App'
+        )
+    }
+}
+
 mainClassName = "com.training.App"
 run {
     args 'server', configPath + 'config.yml'
 }
+
+//compileJava.options.fork = true
+//compileJava.options.forkOptions.executable = '/Library/Java/JavaVirtualMachines/jdk1.8.0_333.jdk/Contents/Home/bin'
