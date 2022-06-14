@@ -67,7 +67,7 @@ public class BookResource {
     @Path("/{id}")
     public Response getBookById(@PathParam("id") int id) {
         Optional<Book> opt = serviceLayer.findBookByBookId(id);
-        if (opt.isEmpty()) {
+        if (!opt.isPresent()) {
             throw new WebApplicationException(404);
         }
         return Response.ok(opt.get()).build();

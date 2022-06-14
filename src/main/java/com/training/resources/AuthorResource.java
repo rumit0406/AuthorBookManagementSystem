@@ -48,7 +48,7 @@ public class AuthorResource {
     @Path("/{id}")
     public Response getAuthorById(@PathParam("id") int id) {
         Optional<Author> opt = serviceLayer.findAuthorByAuthorId(id);
-        if (opt.isEmpty()) {
+        if (!opt.isPresent()) {
             throw new WebApplicationException(404);
         }
         return Response.ok(opt.get()).build();

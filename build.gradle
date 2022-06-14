@@ -6,6 +6,8 @@ plugins {
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 project.ext {
     dropwizardVersion = '2.1.0'
@@ -45,7 +47,7 @@ test {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'com.training.App'
+                'Main-Class':  'com.training.App'
         )
     }
 }

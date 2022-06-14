@@ -27,10 +27,11 @@ public class App extends Application<AppConfiguration> {
         }
     }
 
-    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<>(Author.class, Book.class, BookAuthor.class) {
+    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle(Author.class, Book.class, BookAuthor.class) {
         @Override
-        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
-            return configuration.getDataSourceFactory();
+        public DataSourceFactory getDataSourceFactory(Object configuration) {
+//            configuration = (AppConfiguration) configuration;
+            return ((AppConfiguration) configuration).getDataSourceFactory();
         }
     };
 
